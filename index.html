@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Inscripción</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      padding: 50px;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.4em;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Santiago del estero 20 de septiembre año 2025</h1>
+    <form id="miFormulario">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="text" name="apellido" placeholder="Apellido" required>
+      <input type="text" name="dni" placeholder="DNI" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="telefono" placeholder="Teléfono" required>
+      <input type="text" name="provincia" placeholder="Provincia" required>
+      <input type="text" name="profesion" placeholder="Profesión" required>
+      <input type="text" name="titulo" placeholder="Título" required>
+      <button type="submit">Enviar</button>
+    </form>
+    <p id="mensaje"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById("miFormulario");
+    const mensaje = document.getElementById("mensaje");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const datos = {};
+      formData.forEach((value, key) => datos[key] = value);
+
+      fetch("https://script.google.com/macros/s/AKfycbxrmdzplwgxegCjPx-34lZnZfzY1RLoV_TmaqQAG6rdipDRMg5qGWFLt82uAfNNwvTO1g/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams(datos)
+      })
+      .then(() => {
+        mensaje.textContent = "¡Formulario enviado correctamente!";
+        form.reset();
+      })
+      .catch(() => {
+        mensaje.textContent = "Error al enviar el formulario.";
+      });
+    });
+  </script>
+</body>
+</html>
