@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IIII Jornada provincial de I.Q 2025_ACSIQ</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #00aaff, #ffffff, #e3000f);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #ffffffdd;
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0px 8px 25px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(5px);
+      text-align: center;
+    }
+    h1 {
+      color: #1b3b5f;
+      margin-bottom: 25px;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #2193b0;
+      outline: none;
+      box-shadow: 0 0 5px rgba(33,147,176,0.5);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    button {
+      background-color: #2193b0;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button:hover { background-color: #176888; }
+    #mensaje {
+      font-weight: bold;
+      color: #1b3b5f;
+      font-size: 1.2em;
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>IIII Jornada provincial de I.Q 2025_ACSIQ</h1>
+
+    <form id="miFormulario">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="text" name="apellido" placeholder="Apellido" required>
+      <input type="text" name="dni" placeholder="DNI" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="telefono" placeholder="Teléfono" required>
+      <input type="text" name="provincia" placeholder="Provincia" required>
+      <input type="text" name="profesion" placeholder="Profesión" required>
+      <input type="text" name="titulo" placeholder="Título" required>
+      <button type="submit" id="btnEnviar">Enviar</button>
+    </form>
+
+    <p id="mensaje" style="display:none;">
+      ¡Formulario enviado correctamente! ✅
+      Presentar comprobante el día de la jornada
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById("miFormulario");
+    const mensaje = document.getElementById("mensaje");
+    const boton = document.getElementById("btnEnviar");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Deshabilitar el botón para evitar doble click
+      boton.disabled = true;
+      boton.textContent = "Enviando...";
+
+      const formData = new FormData(form);
+      const datos = {};
+      formData.forEach((value, key) => datos[key] = value);
+
+      fetch("https://script.google.com/macros/s/AKfycbxdYissD0thgVVljKRuh9ZG6NqOKaaJBDRbIe-M34eJ-7kjRnN9Im-nIAZofwmDpo89pg/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(datos)
+      })
+      .then(response => response.json())
+      .then(res => {
+        if (res.result === "ok") {
+          form.style.display = "none";
+          mensaje.style.display = "block";
+        } else {
+          mensaje.textContent = "Error al enviar el formulario.";
+          mensaje.style.display = "block";
+        }
+      })
+      .catch(() => {
+        mensaje.textContent = "Error al enviar el formulario.";
+        mensaje.style.display = "block";
+      });
+    });
+  </script>
+</body>
+</html>
